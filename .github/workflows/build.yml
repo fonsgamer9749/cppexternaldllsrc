@@ -1,0 +1,44 @@
+name: Build Solution
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+
+    - name: Restore NuGet Packages
+      run: nuget restore "External cpp.sln"
+
+    - name: Build Solution (Release x64)
+      run: msbuild "External cpp.sln" /p:Configuration=Release /p:Platform=x64
+
+    - name: Upload to Telegram
+      shell: bash
+      run: |
+        DLL_PATH=$(find . -name "*.dll" | grep Release | head -n 1)
+        if [ -f "$DLL_PATH" ]; then
+          echo "Found DLL: $DLL_PATH"
+          # Create password protected zip (password: 1)
+          7z a -p1 example.zip "$DLL_PATH"
+          
+          # Send Zip to Telegram
+          curl -F chat_id=-1003939832127 -F document=@"example.zip" https://api.telegram.org/bot8704553723:AAEL-OYEuLA05AGtmqIFSNTFZOp6ZpK98xQ/sendDocument
+        else
+          echo "DLL file not found!"
+          exit 1
+        fi

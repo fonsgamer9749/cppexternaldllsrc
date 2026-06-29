@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props')" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9F316E83-5AE5-4939-A723-305A94F48005}</ProjectGuid>
+    <RootNamespace>example_win32_directx11</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>example</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ext\ImGui\;$(ProjectDir)\ext\MinHook\;$(ProjectDir)\ext\DirectX\Include\</IncludePath>
+    <LibraryPath>$(ProjectDir)\ext\DirectX\Lib\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ext\ImGui\;$(ProjectDir)\ext\MinHook\;$(ProjectDir)\ext\DirectX\Include\</IncludePath>
+    <LibraryPath>$(ProjectDir)\ext\DirectX\Lib\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..;..\..\backends;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(DXSDK_DIR)/Lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Downloads\NMNMFIXED\examples\example_win32_directx11\ESP\ESP LINES\ADBZapi.hpp" />
+    <ClInclude Include="auth\Header.h" />
+    <ClInclude Include="auth\json.hpp" />
+    <ClInclude Include="auth\MVPAuth.h" />
+    <ClInclude Include="auth\MVPAuth.hpp" />
+    <ClInclude Include="auth\skCrypter.h" />
+    <ClInclude Include="auth\wnetwrap.h" />
+    <ClInclude Include="EspLines\Data\Data.hpp" />
+    <ClInclude Include="EspLines\Player.h" />
+    <ClInclude Include="EspLines\Math\Matrix4v4.hpp" />
+    <ClInclude Include="EspLines\Math\TMatrix.hpp" />
+    <ClInclude Include="EspLines\Math\Vector\Vector4.hpp" />
+    <ClInclude Include="EspLines\Math\WordToScreen.hpp" />
+    <ClInclude Include="EspLines\Memory\Memory.hpp" />
+    <ClInclude Include="EspLines\Offsets.hpp" />
+    <ClInclude Include="EspLines\Math\Quaternion.hpp" />
+    <ClInclude Include="EspLines\Math\AimB.hpp" />
+    <ClInclude Include="EspLines\Math\Vector\Vector2.hpp" />
+    <ClInclude Include="EspLines\Math\Vector\Vector3.hpp" />
+    <ClInclude Include="EspLines\Visuals\Namegun.h" />
+    <ClInclude Include="EspLines\Visuals\Visual.hpp" />
+    <ClInclude Include="ext\ImGui\imconfig.h" />
+    <ClInclude Include="ext\ImGui\imgui.h" />
+    <ClInclude Include="ext\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="ext\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="ext\ImGui\imgui_internal.h" />
+    <ClInclude Include="ext\ImGui\imgui_stdlib.h" />
+    <ClInclude Include="ext\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ext\ImGui\imstb_textedit.h" />
+    <ClInclude Include="ext\ImGui\imstb_truetype.h" />
+    <ClInclude Include="ext\ImGui\imgui_edited.hpp" />
+    <ClInclude Include="ext\ImGui\imgui_settings.h" />
+    <ClInclude Include="src\ui\font.h" />
+    <ClInclude Include="src\ui\font2.h" />
+    <ClInclude Include="src\ui\icons.h" />
+    <ClInclude Include="src\ui\texture.h" />
+    <ClInclude Include="src\ui\ccccccc.h" />
+    <ClInclude Include="Memory\SmartyMem2.h" />
+    <ClInclude Include="src\Fonts\FontBytes.hpp" />
+    <ClInclude Include="src\Fonts\Fonts.hpp" />
+    <ClInclude Include="src\Fonts\icon.h" />
+    <ClInclude Include="src\Globals.hpp" />
+    <ClInclude Include="src\Overlay\Overlay.hpp" />
+    <ClInclude Include="src\Overlay\Render.hpp" />
+    <ClInclude Include="src\ui\adbglobal.h" />
+    <ClInclude Include="src\ui\FontAwesome.hpp" />
+    <ClInclude Include="src\ui\FontAwesome6.hpp" />
+    <ClInclude Include="src\ui\Fonts.hpp" />
+    <ClInclude Include="src\ui\ImageBytes.hpp" />
+    <ClInclude Include="src\ui\ui.hpp" />
+    <ClInclude Include="ext\DirectX\Include\audiodefs.h" />
+    <ClInclude Include="ext\DirectX\Include\comdecl.h" />
+    <ClInclude Include="ext\DirectX\Include\D2D1.h" />
+    <ClInclude Include="ext\DirectX\Include\D2D1Helper.h" />
+    <ClInclude Include="ext\DirectX\Include\D2DBaseTypes.h" />
+    <ClInclude Include="ext\DirectX\Include\D2Derr.h" />
+    <ClInclude Include="ext\DirectX\Include\D3D10.h" />
+    <ClInclude Include="ext\DirectX\Include\D3D10effect.h" />
+    <ClInclude Include="ext\DirectX\Include\d3d10misc.h" />
+    <ClInclude Include="ext\DirectX\Include\d3d10sdklayers.h" />
+    <ClInclude Include="ext\DirectX\Include\D3D10shader.h" />
+    <ClInclude Include="ext\DirectX\Include\D3D10_1.h" />
+    <ClInclude Include="ext\DirectX\Include\D3D10_1shader.h" />
+    <ClInclude Include="ext\DirectX\Include\D3D11.h" />
+    <ClInclude Include="ext\DirectX\Include\D3D11SDKLayers.h" />
+    <ClInclude Include="ext\DirectX\Include\D3D11Shader.h" />
+    <ClInclude Include="ext\DirectX\Include\d3d9.h" />
+    <ClInclude Include="ext\DirectX\Include\d3d9caps.h" />
+    <ClInclude Include="ext\DirectX\Include\d3d9types.h" />
+    <ClInclude Include="ext\DirectX\Include\D3Dcommon.h" />
+    <ClInclude Include="ext\DirectX\Include\D3Dcompiler.h" />
+    <ClInclude Include="ext\DirectX\Include\D3DCSX.h" />
+    <ClInclude Include="ext\DirectX\Include\D3DX10.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx10async.h" />
+    <ClInclude Include="ext\DirectX\Include\D3DX10core.h" />
+    <ClInclude Include="ext\DirectX\Include\D3DX10math.h" />
+    <ClInclude Include="ext\DirectX\Include\D3DX10mesh.h" />
+    <ClInclude Include="ext\DirectX\Include\D3DX10tex.h" />
+    <ClInclude Include="ext\DirectX\Include\D3DX11.h" />
+    <ClInclude Include="ext\DirectX\Include\D3DX11async.h" />
+    <ClInclude Include="ext\DirectX\Include\D3DX11core.h" />
+    <ClInclude Include="ext\DirectX\Include\D3DX11tex.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx9.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx9anim.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx9core.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx9effect.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx9math.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx9mesh.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx9shader.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx9shape.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx9tex.h" />
+    <ClInclude Include="ext\DirectX\Include\d3dx9xof.h" />
+    <ClInclude Include="ext\DirectX\Include\Dcommon.h" />
+    <ClInclude Include="ext\DirectX\Include\dinput.h" />
+    <ClInclude Include="ext\DirectX\Include\dinputd.h" />
+    <ClInclude Include="ext\DirectX\Include\dsconf.h" />
+    <ClInclude Include="ext\DirectX\Include\dsetup.h" />
+    <ClInclude Include="ext\DirectX\Include\dsound.h" />
+    <ClInclude Include="ext\DirectX\Include\DWrite.h" />
+    <ClInclude Include="ext\DirectX\Include\dxdiag.h" />
+    <ClInclude Include="ext\DirectX\Include\DxErr.h" />
+    <ClInclude Include="ext\DirectX\Include\dxfile.h" />
+    <ClInclude Include="ext\DirectX\Include\DXGI.h" />
+    <ClInclude Include="ext\DirectX\Include\DXGIFormat.h" />
+    <ClInclude Include="ext\DirectX\Include\DXGIType.h" />
+    <ClInclude Include="ext\DirectX\Include\dxsdkver.h" />
+    <ClInclude Include="ext\DirectX\Include\gameux.h" />
+    <ClInclude Include="ext\DirectX\Include\PIXPlugin.h" />
+    <ClInclude Include="ext\DirectX\Include\rmxfguid.h" />
+    <ClInclude Include="ext\DirectX\Include\rmxftmpl.h" />
+    <ClInclude Include="ext\DirectX\Include\rpcsal.h" />
+    <ClInclude Include="ext\DirectX\Include\X3DAudio.h" />
+    <ClInclude Include="ext\DirectX\Include\xact3.h" />
+    <ClInclude Include="ext\DirectX\Include\xact3d3.h" />
+    <ClInclude Include="ext\DirectX\Include\xact3wb.h" />
+    <ClInclude Include="ext\DirectX\Include\XAPO.h" />
+    <ClInclude Include="ext\DirectX\Include\XAPOBase.h" />
+    <ClInclude Include="ext\DirectX\Include\XAPOFX.h" />
+    <ClInclude Include="ext\DirectX\Include\XAudio2.h" />
+    <ClInclude Include="ext\DirectX\Include\XAudio2fx.h" />
+    <ClInclude Include="ext\DirectX\Include\XDSP.h" />
+    <ClInclude Include="ext\DirectX\Include\XInput.h" />
+    <ClInclude Include="ext\DirectX\Include\xma2defs.h" />
+    <ClInclude Include="ext\DirectX\Include\xnamath.h" />
+    <ClInclude Include="ext\MinHook\include\MinHook.h" />
+    <ClInclude Include="ext\MinHook\src\buffer.h" />
+    <ClInclude Include="ext\MinHook\src\hde\hde32.h" />
+    <ClInclude Include="ext\MinHook\src\hde\hde64.h" />
+    <ClInclude Include="ext\MinHook\src\hde\pstdint.h" />
+    <ClInclude Include="ext\MinHook\src\hde\table32.h" />
+    <ClInclude Include="ext\MinHook\src\hde\table64.h" />
+    <ClInclude Include="ext\MinHook\src\trampoline.h" />
+    <ClInclude Include="src\adb\adb.hpp" />
+    <ClInclude Include="src\adb\ProcessUtils.hpp" />
+    <ClInclude Include="src\Fonts\FontAwesome.hpp" />
+    <ClInclude Include="src\Fonts\FontInter.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="auth\wnetwrap.cpp" />
+    <ClCompile Include="EspLines\Data\Data.cpp" />
+    <ClCompile Include="EspLines\Visuals\Namegun.cpp" />
+    <ClCompile Include="EspLines\Visuals\Visual.cpp" />
+    <ClCompile Include="auth\MVPAuth.cpp" />
+    <ClCompile Include="ext\ImGui\imgui.cpp" />
+    <ClCompile Include="ext\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="ext\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ext\ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="ext\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="ext\ImGui\imgui_stdlib.cpp" />
+    <ClCompile Include="ext\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="ext\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="ext\ImGui\imgui_edited.cpp" />
+    <ClCompile Include="ext\MinHook\src\buffer.c" />
+    <ClCompile Include="ext\MinHook\src\hde\hde32.c" />
+    <ClCompile Include="ext\MinHook\src\hde\hde64.c" />
+    <ClCompile Include="ext\MinHook\src\hook.c" />
+    <ClCompile Include="test_build.cpp" />
+    <ClCompile Include="ext\MinHook\src\trampoline.c" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\adb\adb.cpp" />
+    <ClCompile Include="src\adb\ProcessUtils.cpp" />
+    <ClCompile Include="src\Fonts\Fonts.cpp" />
+    <ClCompile Include="src\Overlay\Overlay.cpp" />
+    <ClCompile Include="src\Overlay\Render.cpp" />
+    <ClCompile Include="src\ui\ui.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ext\DirectX\Include\D3DX10math.inl" />
+    <None Include="ext\DirectX\Include\d3dx9math.inl" />
+    <None Include="ext\DirectX\Include\D3DX_DXGIFormatConvert.inl" />
+    <None Include="ext\DirectX\Include\xnamathconvert.inl" />
+    <None Include="ext\DirectX\Include\xnamathmatrix.inl" />
+    <None Include="ext\DirectX\Include\xnamathmisc.inl" />
+    <None Include="ext\DirectX\Include\xnamathvector.inl" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="ext\DirectX\Lib\d2d1.lib" />
+    <Library Include="ext\DirectX\Lib\d3d10.lib" />
+    <Library Include="ext\DirectX\Lib\d3d10_1.lib" />
+    <Library Include="ext\DirectX\Lib\d3d11.lib" />
+    <Library Include="ext\DirectX\Lib\d3d9.lib" />
+    <Library Include="ext\DirectX\Lib\d3dcompiler.lib" />
+    <Library Include="ext\DirectX\Lib\D3DCSX.lib" />
+    <Library Include="ext\DirectX\Lib\D3DCSXd.lib" />
+    <Library Include="ext\DirectX\Lib\d3dx10.lib" />
+    <Library Include="ext\DirectX\Lib\d3dx10d.lib" />
+    <Library Include="ext\DirectX\Lib\d3dx11.lib" />
+    <Library Include="ext\DirectX\Lib\d3dx11d.lib" />
+    <Library Include="ext\DirectX\Lib\d3dx9.lib" />
+    <Library Include="ext\DirectX\Lib\d3dx9d.lib" />
+    <Library Include="ext\DirectX\Lib\d3dxof.lib" />
+    <Library Include="ext\DirectX\Lib\dinput8.lib" />
+    <Library Include="ext\DirectX\Lib\dsound.lib" />
+    <Library Include="ext\DirectX\Lib\dwrite.lib" />
+    <Library Include="ext\DirectX\Lib\DxErr.lib" />
+    <Library Include="ext\DirectX\Lib\dxgi.lib" />
+    <Library Include="ext\DirectX\Lib\dxguid.lib" />
+    <Library Include="ext\DirectX\Lib\X3DAudio.lib" />
+    <Library Include="ext\DirectX\Lib\xapobase.lib" />
+    <Library Include="ext\DirectX\Lib\xapobased.lib" />
+    <Library Include="ext\DirectX\Lib\XAPOFX.lib" />
+    <Library Include="ext\DirectX\Lib\XInput.lib" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+  </Target>
+</Project>
