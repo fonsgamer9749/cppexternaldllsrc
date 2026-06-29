@@ -58,6 +58,7 @@ static bool bUIInit = false;
 
 // Variables from original ui.cpp
 SmartyMemory smartyInstance;
+std::string MemoryLogs = "";
 std::string text = "YxN CHEATS x86 INTERNAL!";
 
 void MouseMovement() {
