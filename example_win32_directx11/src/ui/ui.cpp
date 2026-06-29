@@ -237,6 +237,14 @@ namespace FWork {
                 ImGuiWindowFlags_NoResize |
                 ImGuiWindowFlags_NoBringToFrontOnFocus);
             {
+                // Update MenuRect so overlay accepts clicks on login window
+                ImVec2 wPos = ImGui::GetWindowPos();
+                ImVec2 wSize = ImGui::GetWindowSize();
+                g_Globals.General.MenuRect[0] = wPos.x;
+                g_Globals.General.MenuRect[1] = wPos.y;
+                g_Globals.General.MenuRect[2] = wSize.x;
+                g_Globals.General.MenuRect[3] = wSize.y;
+
                 ParticlesCircle();
                 ImVec2 pos = ImGui::GetWindowPos();
                 ImVec2 size = ImVec2(windowWidth1, windowHeight1);
@@ -408,6 +416,11 @@ namespace FWork {
                 ImGuiWindowFlags_NoBringToFrontOnFocus);
             {
                 const ImVec2& pos = GetWindowPos();
+                ImVec2 wSize = ImGui::GetWindowSize();
+                g_Globals.General.MenuRect[0] = pos.x;
+                g_Globals.General.MenuRect[1] = pos.y;
+                g_Globals.General.MenuRect[2] = wSize.x;
+                g_Globals.General.MenuRect[3] = wSize.y;
 
                 GetBackgroundDrawList()->AddRectFilled(
                     pos, pos + c::background::size,
