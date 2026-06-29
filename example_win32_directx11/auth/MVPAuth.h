@@ -32,7 +32,7 @@ private:
 };
 
 inline MVPAuth MVPAuthApp(
-    "mvp",
+    "cppsilentapk",
     "1265242758914773074",
     "jQ0H0dkD4ruFJ9Mvm1j4FWZuwmvBaFnq",
     "1.0",
