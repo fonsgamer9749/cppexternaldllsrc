@@ -1,3 +1,4 @@
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <thread>
 #include <iostream>
 #include <atomic> 
@@ -21,9 +22,11 @@ extern void adbInit();
 #include <Memory/SmartyMem2.h>
 #include <map>
 
+// Declare WndProcHandler extern
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 // New UI styling and assets headers
 #include "imgui_edited.hpp"
-#include "font.h"
 #include "font2.h"
 #include "icons.h"
 #include "texture.h"
@@ -637,7 +640,7 @@ namespace FWork {
                         
                         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
                         ImGui::TextDisabled("Aimbot FOV Range");
-                        ImGui::SliderFloat("FOV Size", "", &g_Globals.AimBot.Fov, 0.0f, 600.0f, "%.2f");
+                        edited::SliderFloat("FOV Size", "", &g_Globals.AimBot.Fov, 0.0f, 600.0f, "%.2f");
 
                         edited::Checkbox("Rapid Fire", "Increases Weapon Fire Rate", &g_Globals.Misc.RapidFire);
                         edited::Checkbox("No Recoil", "Eliminates Gun Shaking/Recoil", &g_Globals.Misc.NoRecoil);
@@ -674,7 +677,7 @@ namespace FWork {
 
                         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
                         ImGui::TextDisabled("ESP Maximum Distance");
-                        ImGui::SliderInt("ESP Distance", "", &g_Globals.Visuals.DistanceEsp, 0, 500, "%dm");
+                        edited::SliderInt("ESP Distance", "", &g_Globals.Visuals.DistanceEsp, 0, 500, "%dm");
 
                         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 8);
                         const char* lineOptions[] = { "None", "Top Line", "Bottom Line" };
@@ -774,7 +777,7 @@ namespace FWork {
                         
                         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10);
                         ImGui::TextDisabled("Loop Execution Delay");
-                        ImGui::SliderInt("Execution Delay", "", &g_Globals.General.Delay, 0, 100, "%dms");
+                        edited::SliderInt("Execution Delay", "", &g_Globals.General.Delay, 0, 100, "%dms");
 
                         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 30);
                         if (ImGui::Button("UNLOAD CHEAT", ImVec2(240, 35))) {

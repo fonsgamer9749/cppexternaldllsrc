@@ -58,3 +58,9 @@ namespace c
 	}
 
 }
+
+namespace ImGui {
+	inline ImU32 GetColorU32(const ImVec4& col, float alpha_mul) {
+		return GetColorU32(ImVec4(col.x, col.y, col.z, col.w * alpha_mul));
+	}
+}

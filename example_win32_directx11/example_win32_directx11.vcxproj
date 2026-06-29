@@ -259,7 +259,7 @@
     <ClCompile Include="ext\MinHook\src\hde\hde32.c" />
     <ClCompile Include="ext\MinHook\src\hde\hde64.c" />
     <ClCompile Include="ext\MinHook\src\hook.c" />
-    <ClCompile Include="test_build.cpp" />
+
     <ClCompile Include="ext\MinHook\src\trampoline.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\adb\adb.cpp" />
