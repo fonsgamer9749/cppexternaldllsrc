@@ -218,8 +218,8 @@ namespace FWork {
         if (!reiman) // Login Page
         {
             float formWidth = 260.0f;
-            float windowWidth1 = 335.0f;
-            float windowHeight1 = 425.0f;
+            float windowWidth1 = 300.0f;
+            float windowHeight1 = 400.0f;
 
             ImGui::SetNextWindowSize(ImVec2(windowWidth1, windowHeight1));
             
@@ -375,7 +375,8 @@ namespace FWork {
                 edited::EndChild();
 
                 ImGui::PushFont(font::ContiB);
-                ImGui::SetCursorPos(ImVec2(0, 385));
+                float totalWidth = ImGui::CalcTextSize("Don't have an account? ").x + ImGui::CalcTextSize("Signup.").x;
+                ImGui::SetCursorPos(ImVec2((windowWidth1 - totalWidth) * 0.5f, 360));
                 ImGui::Text("Don't have an account? ");
                 ImGui::SameLine();
 
