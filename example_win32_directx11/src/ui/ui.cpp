@@ -631,32 +631,41 @@ namespace FWork {
                 if (active_tab == 0)
                 {
                     ImGui::SetCursorPos(ImVec2(50, 70));
-                    edited::BeginChild("##Container0", ImVec2(300, 380), NULL);
+                    edited::BeginChild("##Container0", ImVec2(300, 500), NULL);
                     {
                         ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "Aimbot Features");
                         ImGui::Separator();
 
-                        edited::Checkbox("Enable Aimbot", "Primary Aim Assist System", &g_Globals.AimBot.Enable);
-                        edited::Checkbox("Silent Aim", "Redirects Bullets Invisibly", &g_Globals.AimBot.silentaim);
-                        edited::Checkbox("Aim-line nearest", "Target closest to crosshair line", &g_Globals.AimBot.Prevision);
-                        edited::Checkbox("Ignore Bot Training", "Skip Bots in Practice Area", &g_Globals.AimBot.IgnoreBots);
+                        if (edited::Checkbox("Aimbot In-Game [ Head ]", "Works In-Game", &g_Globals.AimBot.Enable)) {}
+                        if (edited::Checkbox("Aimbot In-Game [ Neck ]", "Works In-Game", &g_Globals.AimBot.Prevision)) {}
+                        if (edited::Checkbox("Aimbot In-Game [ Drag ]", "Works In-Game", &g_Globals.AimBot.silentaim)) {}
                     }
                     edited::EndChild();
 
                     ImGui::SetCursorPos(ImVec2(400, 70));
-                    edited::BeginChild("##Container1", ImVec2(300, 380), NULL);
+                    edited::BeginChild("##Container1", ImVec2(300, 400), NULL);
                     {
-                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "Aimbot Settings");
+                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "Snipers Func");
                         ImGui::Separator();
 
-                        edited::Checkbox("Show FOV Circle", "Draw boundary lines around crosshair", &g_Globals.Misc.ShowAimbotFov);
-                        
-                        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-                        ImGui::TextDisabled("Aimbot FOV Range");
-                        edited::SliderFloat("FOV Size", "", &g_Globals.AimBot.Fov, 0.0f, 600.0f, "%.2f");
-
-                        edited::Checkbox("Rapid Fire", "Increases Weapon Fire Rate", &g_Globals.Misc.RapidFire);
-                        edited::Checkbox("No Recoil", "Eliminates Gun Shaking/Recoil", &g_Globals.Misc.NoRecoil);
+                        static bool sniper_scope = false;
+                        if (edited::Checkbox("Sniper [ Scope ]", "Works In-Game", &sniper_scope)) {
+                            std::thread([=]() {
+                                if (sniper_scope) {
+                                    smartyInstance.loadsniper();
+                                    smartyInstance.onscope();
+                                } else {
+                                    smartyInstance.offscope();
+                                }
+                            }).detach();
+                        }
+                        if (edited::Checkbox("Sniper [ Ai ]", "Works In-Game", &g_Globals.AimBot.IgnoreBots)) {}
+                        static bool sniper_switch = false;
+                        if (edited::Checkbox("Sniper [ Switch ]", "Works In-Game", &sniper_switch)) {
+                            std::thread([=]() {
+                                smartyInstance.SniperSwitch();
+                            }).detach();
+                        }
                     }
                     edited::EndChild();
                 }
@@ -665,42 +674,48 @@ namespace FWork {
                 if (active_tab == 1)
                 {
                     ImGui::SetCursorPos(ImVec2(50, 70));
-                    edited::BeginChild("##VISUALS", ImVec2(300, 380), NULL);
+                    edited::BeginChild("##VISUALS", ImVec2(300, 300), NULL);
                     {
-                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "ESP Features");
+                        ImGui::SetCursorPos(ImVec2(10, 10));
+                        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+                        ImGui::Text("Visual");
+                        ImGui::PopStyleColor();
+                        ImGui::SetCursorPos(ImVec2(0, 40));
                         ImGui::Separator();
 
-                        edited::Checkbox("Enable ESP Overlay", "Master ESP Switcher", &g_Globals.Visuals.Enable);
-                        edited::Checkbox("ESP Lines", "Render targeting snap lines", &g_Globals.Visuals.Lines);
-                        edited::Checkbox("ESP Box", "Draw bounding boxes around targets", &g_Globals.Visuals.Box);
-                        edited::Checkbox("ESP Fill Box", "Fills bounding boxes with color", &g_Globals.Visuals.FillColorBox);
-                        edited::Checkbox("ESP Health Bar", "Render target HP status indicator", &g_Globals.Visuals.HealthBar);
-                        edited::Checkbox("ESP Name", "Displays player names on target", &g_Globals.Visuals.Name);
-                        edited::Checkbox("ESP Distance", "Displays distance metrics next to player", &g_Globals.Visuals.Distance);
-                        edited::Checkbox("ESP Weapon", "Displays weapon names on target", &g_Globals.Visuals.esparmas);
-                        edited::Checkbox("ESP Icon Weapon", "Displays weapon icon sprites on target", &g_Globals.Visuals.showIcons);
+                        if (edited::Checkbox("Chams [ 32 Bit ]", "Works In-Game", &g_Globals.Visuals.ChamsTexture)) {}
+                        if (edited::Checkbox("Chams [ 64 Bit ]", "Works In-Game", &g_Globals.Visuals.ChamsTransparente)) {}
                     }
                     edited::EndChild();
 
                     ImGui::SetCursorPos(ImVec2(400, 70));
                     edited::BeginChild("##ESP", ImVec2(300, 380), NULL);
                     {
-                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "ESP Settings");
+                        ImGui::SetCursorPos(ImVec2(10, 10));
+                        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+                        ImGui::Text("Esp Menu ");
+                        ImGui::PopStyleColor();
+                        ImGui::SetCursorPos(ImVec2(0, 40));
                         ImGui::Separator();
 
-                        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-                        ImGui::TextDisabled("ESP Maximum Distance");
-                        edited::SliderInt("ESP Distance", "", &g_Globals.Visuals.DistanceEsp, 0, 500, "%dm");
+                        if (edited::Checkbox("ESP Line", "Drow Line And Locate The Enemy", &g_Globals.Visuals.Lines)) {}
+                        if (edited::Checkbox("ESP Box", "Draw Boxes On The Enemy", &g_Globals.Visuals.Box)) {}
+                        
+                        static bool esp_cbox = false;
+                        esp_cbox = (g_Globals.Visuals.players_box == 2);
+                        if (edited::Checkbox("ESP Corner Box", "Draw Corner Boxes On The Enemy", &esp_cbox)) {
+                            g_Globals.Visuals.players_box = esp_cbox ? 2 : 0;
+                        }
+                        if (edited::Checkbox("ESP Fill Box", "Draw Fill Boxes On The Enemy", &g_Globals.Visuals.FillColorBox)) {}
+                        if (edited::Checkbox("ESP Bones", "Draw Bones On The Enemy", &g_Globals.Visuals.Skeleton)) {}
+                        if (edited::Checkbox("ESP Moco", "Draw Moco On The Enemy", &g_Globals.Visuals.Wukong)) {}
+                        if (edited::Checkbox("ESP Information", "Show Name And Health On Enemy", &g_Globals.Visuals.Name)) {}
+                        if (edited::Checkbox("ESP Fix", "Active to Fix Flicker", &g_Globals.Visuals.FPS)) {}
 
-                        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 8);
-                        const char* lineOptions[] = { "None", "Top Line", "Bottom Line" };
-                        edited::Combo("ESP Line Anchor", "Choose line start anchor point", &g_Globals.Visuals.EspLines, lineOptions, IM_ARRAYSIZE(lineOptions));
+                        edited::SliderInt("ESP Distance", "", &g_Globals.Visuals.DistanceEsp, 0, 200, "%dM%%");
 
-                        const char* healthBarOptions[] = { "None", "Left Side", "Right Side", "Down Side" };
-                        edited::Combo("ESP Bar Position", "Choose healthbar position", &g_Globals.Visuals.players_healthbar, healthBarOptions, IM_ARRAYSIZE(healthBarOptions));
-
-                        const char* boxTypes[] = { "None", "Full Box", "Cornered Box" };
-                        edited::Combo("ESP Box Type", "Choose boundary box render mode", &g_Globals.Visuals.players_box, boxTypes, IM_ARRAYSIZE(boxTypes));
+                        const char* items1[3]{ "Top", "Centre", "Bottom" };
+                        edited::Combo("ESP Anchor Point", "Choose line start anchor point", &g_Globals.Visuals.EspLines, items1, IM_ARRAYSIZE(items1));
                     }
                     edited::EndChild();
                 }
@@ -711,68 +726,98 @@ namespace FWork {
                     ImGui::SetCursorPos(ImVec2(50, 70));
                     edited::BeginChild("##BrutalTab", ImVec2(300, 380), NULL);
                     {
-                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "Aggressive Target Adjustments");
+                        ImGui::SetCursorPos(ImVec2(10, 10));
+                        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+                        ImGui::Text("Intrnal Functions");
+                        ImGui::PopStyleColor();
+                        ImGui::SetCursorPos(ImVec2(0, 40));
                         ImGui::Separator();
 
-                        edited::Checkbox("Shake Kill", "Shakes crosshair to secure hits", &g_Globals.AimBot.ShakeKill);
-                        edited::Checkbox("Up Player", "Adjusts target height upward", &g_Globals.AimBot.UPPlayer);
-                        edited::Checkbox("Down Player", "Adjusts target height downward", &g_Globals.AimBot.DownPlayer);
+                        static int enemypull360_key = 0;
+                        if (edited::Keybind("Enemy Pull 360 - Key", "Pull enemies around 360 degrees", &enemypull360_key)) {
+                            g_Globals.Misc.KeyDown = enemypull360_key;
+                        }
+                        static int silent_key = 0;
+                        if (edited::Keybind("Silent Aim - Key", "Enable Silent Aim mode", &silent_key)) {
+                            g_Globals.Misc.KeyWall = silent_key;
+                        }
+                        static int teleport_key = 0;
+                        if (edited::Keybind("Teleport - Key", "Teleport to target", &teleport_key)) {
+                            // Can be used for custom keys
+                        }
                     }
                     edited::EndChild();
 
                     ImGui::SetCursorPos(ImVec2(400, 70));
-                    edited::BeginChild("##BrutalTabRight", ImVec2(300, 380), NULL);
+                    edited::BeginChild("##BrutalTab111", ImVec2(300, 380), NULL);
                     {
-                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "Teleport & Magnet Exploits");
+                        ImGui::SetCursorPos(ImVec2(10, 10));
+                        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+                        ImGui::Text("Intrnal Functions");
+                        ImGui::PopStyleColor();
+                        ImGui::SetCursorPos(ImVec2(0, 40));
                         ImGui::Separator();
 
-                        edited::Checkbox("TeleKill", "Secure kills from range instantly", &g_Globals.AimBot.telekill);
-                        edited::Checkbox("Teleport (200m)", "Teleports bullets up to 200m", &g_Globals.AimBot.teleport);
-                        edited::Checkbox("Magnet Pull Head", "Pulls bullets to target's head", &g_Globals.AimBot.MagnetHead);
-                        edited::Checkbox("Magnet Pull Body", "Pulls bullets to target's body", &g_Globals.AimBot.MagnetBody);
+                        static int shakekill = 0;
+                        if (edited::Keybind("Shake Kill - Key", "In Game", &shakekill)) {}
+                        static int telekill = 0;
+                        if (edited::Keybind("Tele Kill - Key", "In Game", &telekill)) {}
+                        static int up = 0;
+                        if (edited::Keybind("Up Player - Key", "In Game", &up)) {}
                     }
                     edited::EndChild();
                 }
 
-                // TAB 3: EXTRA (Color Picker & Settings)
+                // TAB 3: EXTRA (Keybinds)
                 if (active_tab == 3)
                 {
                     ImGui::SetCursorPos(ImVec2(50, 70));
                     edited::BeginChild("##BrutalTab_Left", ImVec2(300, 380), NULL);
                     {
-                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "ESP Colors Left");
+                        ImGui::SetCursorPos(ImVec2(10, 10));
+                        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+                        ImGui::Text("Keybinds");
+                        ImGui::PopStyleColor();
+                        ImGui::SetCursorPos(ImVec2(0, 40));
                         ImGui::Separator();
 
-                        auto ColorPick = [&](const char* name, const char* desc, float* col) {
-                            ImGui::TextDisabled("%s", name);
-                            edited::ColorEdit4(name, desc, col);
-                            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-                        };
-
-                        ColorPick("Name Color", "Color of player name", g_Globals.Visuals.NameColor);
-                        ColorPick("Distance Color", "Color of distance indicator", g_Globals.Visuals.DistColor);
-                        ColorPick("Box Color", "Color of bounding boxes", g_Globals.Visuals.BoxColor);
-                        ColorPick("Fill Color", "Color of bounding boxes filling", g_Globals.Visuals.FillColor);
+                        static int aimbotheadkey = 0;
+                        edited::Keybind("Aimbot Head - Key", "Assign Key For Fake Lag", &aimbotheadkey);
+                        static int aimbotneckkey = 0;
+                        edited::Keybind("Aimbot Neck - Key", "Assign Key For Fake Lag", &aimbotneckkey);
+                        static int aimbotdragkey = 0;
+                        edited::Keybind("Aimbot Drag - Key", "Assign Key For Fake Lag", &aimbotdragkey);
+                        static int fakelag_key = 0;
+                        edited::Keybind("Fake Lag - Key", "Assign Key For Fake Lag", &fakelag_key);
+                        static int aimlag = 0;
+                        edited::Keybind("Aim Lag - Key", "Assign Key For Fake Lag", &aimlag);
+                        static int freeze = 0;
+                        edited::Keybind("Freeze Lag - Key", "Assign Key For Fake Lag", &freeze);
+                        static int ghost = 0;
+                        edited::Keybind("Ghost Lag - Key", "Assign Key For Fake Lag", &ghost);
                     }
                     edited::EndChild();
 
                     ImGui::SetCursorPos(ImVec2(400, 70));
                     edited::BeginChild("##BrutalTab_Right", ImVec2(300, 380), NULL);
                     {
-                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "ESP Colors Right");
+                        ImGui::SetCursorPos(ImVec2(10, 10));
+                        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+                        ImGui::Text("Misc");
+                        ImGui::PopStyleColor();
+                        ImGui::SetCursorPos(ImVec2(0, 40));
                         ImGui::Separator();
 
-                        auto ColorPick = [&](const char* name, const char* desc, float* col) {
-                            ImGui::TextDisabled("%s", name);
-                            edited::ColorEdit4(name, desc, col);
-                            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5);
-                        };
-
-                        ColorPick("Skeleton Color", "Color of target bone lines", g_Globals.Visuals.SkeletonColor);
-                        ColorPick("Weapon Color", "Color of active weapon label", g_Globals.Visuals.GunColor);
-                        ColorPick("Snap-Line Color", "Color of snap lines", g_Globals.Visuals.LinesColor);
-
-                        edited::Checkbox("Enable RGB Spectrum Effect", "Cycles colors dynamically", &g_Globals.Visuals.RGB);
+                        static int camerakey = 0;
+                        edited::Keybind("Camera Left - Key", "Assign Key For Fake Lag", &camerakey);
+                        static int fastlandingkey = 0;
+                        edited::Keybind("Fast Landing - Key", "Assign Key For Fake Lag", &fastlandingkey);
+                        static int wallhackkey = 0;
+                        edited::Keybind("Wall Hack - Key", "Assign Key For Fake Lag", &wallhackkey);
+                        static int speedkey = 0;
+                        edited::Keybind("Speed - Key", "Assign Key For Fake Lag", &speedkey);
+                        static int flykey = 0;
+                        edited::Keybind("Fly - Key", "Assign Key For Fake Lag", &flykey);
                     }
                     edited::EndChild();
                 }
@@ -783,29 +828,36 @@ namespace FWork {
                     ImGui::SetCursorPos(ImVec2(50, 70));
                     edited::BeginChild("##Misc_Left", ImVec2(300, 380), NULL);
                     {
-                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "Cheat Core Settings");
+                        ImGui::SetCursorPos(ImVec2(10, 10));
+                        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+                        ImGui::Text("SETTINGS");
+                        ImGui::PopStyleColor();
+                        ImGui::SetCursorPos(ImVec2(0, 40));
                         ImGui::Separator();
 
-                        edited::Keybind("Hide / Show Panel", "Shortcut key to hide menu", &g_Globals.General.KeyBindINT);
-                        
-                        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10);
-                        ImGui::TextDisabled("Loop Execution Delay");
-                        edited::SliderInt("Execution Delay", "", &g_Globals.General.Delay, 0, 100, "%dms");
+                        edited::Keybind("Hide / Show Panel", "Toggle UI Visibility", &g_Globals.General.KeyBindINT);
+                        static int key_close_ui = 0;
+                        edited::Keybind("Close Panel", "Close UI Completely", &key_close_ui);
+                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "Panel Keybinds");
+                        ImGui::Separator();
 
-                        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 30);
-                        if (ImGui::Button("UNLOAD CHEAT", ImVec2(240, 35))) {
-                            g_Globals.General.ShutDown = true;
-                        }
+                        static int mode = 0;
+                        const char* modes[] = { "Fast", "Smooth" };
+                        edited::Combo("Memory Typee", "Choose Type mode", &mode, modes, IM_ARRAYSIZE(modes));
                     }
                     edited::EndChild();
 
                     ImGui::SetCursorPos(ImVec2(400, 70));
                     edited::BeginChild("##Misc_Right", ImVec2(300, 380), NULL);
                     {
-                        ImGui::TextColored(ImColor(GetColorU32(c::elements::text)), "Other Settings");
+                        ImGui::SetCursorPos(ImVec2(10, 10));
+                        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+                        ImGui::Text("OTHER");
+                        ImGui::PopStyleColor();
+                        ImGui::SetCursorPos(ImVec2(0, 40));
                         ImGui::Separator();
 
-                        edited::Checkbox("Stream Mode", "Hide cheat drawings on streaming windows", &g_Globals.General.Capture);
+                        edited::Checkbox("Stream Mode", "Hide sensitive UI elements for streaming", &g_Globals.General.Capture);
                     }
                     edited::EndChild();
                 }
