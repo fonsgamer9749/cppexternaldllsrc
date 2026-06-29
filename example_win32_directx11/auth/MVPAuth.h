@@ -33,8 +33,8 @@ private:
 
 inline MVPAuth MVPAuthApp(
     "mvp",
-    "7CF99595E0AFBCE6",
-    "nJQddfXVJR36iqCafC8NCmkvWZayqTuz",
+    "1265242758914773074",
+    "jQ0H0dkD4ruFJ9Mvm1j4FWZuwmvBaFnq",
     "1.0",
     "http://paid.mvpcheats.online:19107/api/1.0"
 );
